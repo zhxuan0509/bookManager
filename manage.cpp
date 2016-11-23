@@ -339,7 +339,7 @@ void BookRecord ::reader_handle()//读者会员操作函数
 	i=checkreader(id);//i为读者数组号
 	if(i>=0)
 	{	int j;
-		cout <<"	********会员读者欢迎您来到汇文图书馆********"<<endl;
+		cout <<"	********会员读者欢迎您来到图书馆********"<<endl;
 		cout <<"	1：查询基本信息	2：查询借书信息"<<endl;
 		cout <<"	3:高级查询藏书	4：显示全部藏书"<<endl;
 		cout <<"	0：退出会员登录"<<endl;

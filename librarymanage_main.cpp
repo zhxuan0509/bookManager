@@ -11,7 +11,7 @@ void main()
 	BookRecord r;
 	r.set_count();
 	r.set_re_count();
-	cout<<"		************欢迎进入汇文图书馆***********"<<endl;
+	cout<<"		************欢迎进入图书馆***********"<<endl;
 	cout<<"		*	1：管理员登录"<<endl;
 	cout<<"		*	2：会员读者登录"<<endl;
 	cout<<"		*	3：一般读者查询"<<endl;
@@ -76,7 +76,7 @@ void main()
 		cout<<"		*	3：一般读者查询"<<endl;
 		cout<<"		*	0：退出图书馆管理系统"<<endl;
 		cout<<"		****************************************"<<endl;
-		cout<<"请继续输入进入汇文图书馆选项："<<endl;
+		cout<<"请继续输入进入图书馆选项："<<endl;
 		cin>>key;
 	}
 	return;
