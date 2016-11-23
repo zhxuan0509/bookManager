@@ -1,24 +1,43 @@
-#pragma once
 #ifndef MANAGE_H
-#define MANAGE_H
-#include<iostream>//使用标准输入输出流
-#include<fstream>//使用文件流
-#include<sstream>//使用string流
-using namespace std;//使用名空间
-class manage
+#define MANEGE_H
+#include"book.h"
+#include"reader.h"
+#include<iostream>
+#include<string>
+using namespace std;
+class BookRecord
 {
-private:
-	string number;//登录号码
-	string code;//密码
 public:
-	manage();//默认构造函数
-	int getManage();//声明登录函数
-	void reviseInformation();//声明修改信息函数
-	void deleteBook();//声明删除书籍函数
-    void add(); //申明添加书籍函数
-	void revise();//声明修改书籍信息函数
-	void addReader();//声明增加读者函数
-	void deleteReader();//声明删除读者函数
-	~manage();//析构函数
+	void set_count()//图书册数统计初始化
+	{
+		count=0;
+	}
+	void bookadd();
+	void bookdelete();
+	void bookshow();
+	void bookfind();
+	int checkbook(int);//检查书是否存在、返回书号
+
+	void reader_handle();//会员操作函数
+
+	void manage();//管理员操作函数
+
+	void readeradd();//
+	void readershow();
+	int checkreader(int);//检查读者是否存在、返回读者号
+	void borrow_book();//
+	void return_book();//
+
+	void readerdelete();//
+	void set_re_count()//读者人数统计初始化
+	{
+		re_count=0;
+	}
+private:
+	Book book[MAX_BOOK];//图书
+	int count;
+
+	Reader reader[MAX_READER];//读者
+	int re_count;
 };
 #endif

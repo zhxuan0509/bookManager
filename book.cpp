@@ -1,114 +1,70 @@
-#include "book.h"
-book::book()//构造函数
-	{ 
-	    bookName="未赋值";
-	    bookISBN=NULLID;
-	}
-
-string book::getName()const//获得书名
+#include<iostream>
+#include<string>
+#include"book.h"
+using namespace std;
+Book ::Book()
 {
-	return bookName;
+	bookname="空";
+	author="空";
+	bookID=0;
+	bookcompany="空";
+	flag=1;
+}
+void Book ::add_book(string bookn,string au,int Id,string bookc)
+{
+	bookname=bookn;
+	author=au;
+	bookID=Id;
+	bookcompany=bookc;
+	flag=1;
 }
 
-string book::getbookAuthor()const//获得作者
-	{
-		return bookAuthor;
-    }
+void Book ::input_bookname(string bookn)
+{
+	bookname=bookn;
+}
+string Book ::get_bookname()
+{
+	return bookname;
+}
 
-string book::getbookISBN()const//获得ISBN
-	{
-		return bookISBN;
-	}
+void Book ::input_author(string au)
+{
+	author=au;
+}
+string Book ::get_author()
+{
+	return author;
+}
 
-string book::gettype()const//获得类型
-	{
-		return type;
-	}
+void Book ::input_bookID(int id)
+{
+	bookID=id;
+}
+int Book ::get_bookID()
+{
+	return bookID;
+}
 
-string book::getbookPress()const//获得出版社
-	{
-		return bookPress;
-	}
+void Book ::input_bookcompany(string bookc)
+{
+	bookcompany=bookc;
+}
+string Book ::get_bookcompany()
+{
+	return bookcompany;
+}
 
-int book::getbookStatue()const//获得状态
-	{
-		return bookStatue;
-	}
+void Book ::set_flag(int a)
+{
+	flag=a;
+}
+int Book ::get_flag()
+{
+	return flag;
+}
 
-void book::setName(string a)//设定书名
-	{
-		bookName=a;
-	}
-
-void book::setAuthor(string b)//设定作者
-	{
-		bookAuthor=b;
-	}
-
-void book::setISBN(string c)//设定ISBN码
-	{
-		bookISBN=c;
-    }
-
-void book::settype(string d)//设定书项
-	{
-		type=d;
-	}
-
-void book::setPress(string e)//设定出版社
-	{
-		bookPress=e;
-	}
-
-void book::setStatue(int f=0)//设定状态
-	{
-		bookStatue=f;
-	}
-	
-void book::readBookInformation()//读入书籍信息函数
-	{
-    cout<<"请输入书名："<<endl;//读入书名
-	cin>>bookName;
-	
-    cout<<"请输入作者名："<<endl;//读入作者名
-    cin>>bookAuthor;
-
-	cout<<"请输入ISBN码："<<endl;//读入ISBN码
-	cin>>bookISBN;
-
-	cout<<"请输入类别："<<endl;//读入类别
-	cin>>type;
-
-	cout<<"请输入出版社："<<endl;//读入出版社
-	cin>>bookPress;
-
-	cout<<"请输入状态：(0代表在馆，1代表借出)"<<endl;//读入状态
-	cin>>bookStatue;
-	}
-
-void book::printBookInformation()//输出书籍信息函数
-	{
-		cout<<"书名："<<bookName<<endl;//输出书名
-		cout<<"作者："<<bookAuthor<<endl;//输出作者
-		cout<<"ISBN码："<<bookISBN<<endl;//输出ISBN码
-		cout<<"类别："<<type<<endl;//输出类别
-		cout<<"出版社："<<bookPress<<endl;//输出出版社
-		changeStatue();//调用状态改变函数
-	}
-
-void book::changeStatue()//判断状态
-	{
-	if(bookStatue==0)
-		{
-			cout<<"状态：在馆"<<endl;//输出状态
-		}
-		else
-		{
-			cout<<"状态：借出"<<endl;//输出状态
-		}
-		
-	}
-
-book::~book()
-	{
-    }
+void Book ::display()
+{
+	cout<<"书名："<<bookname<<"  作者："<<author<<"  书号："<<bookID<<"  出版社："<<bookcompany<<" 图书标志："<<flag<<endl;
+}

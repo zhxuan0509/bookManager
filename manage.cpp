@@ -1,354 +1,487 @@
-#include "manage.h"
+#include"manage.h"
 #include"book.h"
-manage::manage()//析构函数
+#include"reader.h"
+#include<iostream>
+#include<string>
+using namespace std;//manage
+void BookRecord ::bookadd()
 {
+	int n;
+	cout<<"即将进行图书添加操作，确定添加图书请输入非 0 整数"<<endl;
+	cin>>n;
+	while(n)
+	{
+	string bookn;
+	cout<<"请输入书名：(string)"<<endl;
+	cin>>bookn;
 
+	string au;
+	cout<<"请输入作者姓名：(string)"<<endl;
+	cin>>au;
+	
+	int id;
+	cout<<"请输入书号：(int)"<<endl;
+	cin>>id;
+	
+	string bookc;
+	cout<<"请输入出版社名称：(string)"<<endl;
+	cin>>bookc;
+	book[count].add_book(bookn,au,id,bookc);
+	count++;
+	cout<<"图书添加成功！确定继续添加图书请输入非 0 整数"<<endl;
+	cin>>n;
+	}
+	return ;
+}
+void BookRecord ::bookshow()
+{cout<<"	*****图书馆的所有书籍如下*****"<<endl;
+	int i;
+	for(i = 0;i < count;i++)//count在此类中为全局变量
+	{
+		book[i].display( );
+	}
 }
 
-int manage::getManage()//登录函数
-{
-	cout<<"欢迎登陆图书管理系统！"<<endl;
-	string a,b;
-	cout<<"请输入账号："<<endl;
-	cin>>a;
-	cout<<"请输入密码："<<endl;
-	cin>>b;
-	string n,c;
-    ifstream in("manage.txt");//打开文件
-	int i=0;//标签，判断账号的存在与否
-    do
-     {
-	   if(in.eof())//文件尾就结束
-       break;
-	   
-	   string s;
-	   getline(in,s);//读入每一行
-       istringstream sin(s);//定义sin流
-       sin>>n>>c;
-	   if((a==n)&&(c==b))//判断是否存在
-         {
-			 i=1;
-		     return 1;//返回真值      
-             cout<<"登陆成功！"<<endl;
-			 break; 
-					            
-         }
-     }
-	while(!in.eof());//判断是否到文件尾
-
-    if(i==0)//未找到账号
-	cout<<"输入不正确！" <<endl;
-    return 0;//返回假值
-    in.close();//关闭文件
-}
-
-void manage::reviseInformation()//修改信息函数
-{
-  int t=0;//标签，是否存在该账号
-  string a,b,c,d;
-  cout<<"请输入个人信息："<<endl;
-  cout<<"账号："<<endl;
-  cin>>c;
-  cout<<"密码："<<endl;
-  cin>>d;
-  ifstream in("manage.txt");//打开文件
-  string s1;
-  while( getline(in,s1))//读入数据
-     {
-		istringstream sin(s1);//定义sin流
-        sin>>a>>b;
-	    ofstream out("manage1.txt",ios::app);//打开文件
-        if((a==c)&&(b==d))//存在该账号
-          {
-		    t=1;
-		    string m,p;
-			cout<<"请输入修改后的信息:" <<endl;
-			cout<<"姓名："<<endl;
-			cin>>m;
-			cout<<"密码："<<endl;
-			cin>>p;
-            out<<m<<" "<<p<<endl; 
-			cout<<"修改成功"<<endl;
-		  }
-		  else
-			  out<<a<<" "<<b<<endl;//未修改
-		      out.close();//关闭文件
-	 }
-		in.close();//关闭文件
-
-		ifstream filein("manage1.txt");//打开文档
-		ofstream fileout("manage.txt",ios::out);//打开文档并清空内容
-		string s;
-		while(getline(filein,s))//将修改后的内容写到文件中去
+void BookRecord ::bookfind()
+{	int i,j,id;
+	string bn,au,bc;
+	cout<<"*****欢迎进入图书精确查询系统*****"<<endl;
+	cout<<"		1：书名查询"<<endl;
+	cout<<"		2：作者查询"<<endl;
+	cout<<"		3：书号查询"<<endl;
+	cout<<"		4：出版社查询"<<endl;
+	cout<<"		0：退出查询"<<endl;
+	cout<<"请输入查询关键字："<<endl;
+	cin >> i;
+	while(i)
+	{
+		switch(i)
 		{
-			fileout<<s<<endl;
+		case 1:
+			{int f=0;
+				cout<<"输入要查询的书名："<<endl;
+				cin >>bn;
+				for(j=0;j<count;j++)
+				{
+					if(bn==book[j].get_bookname())
+					{
+						f=1;
+						book[j].display();
+					}
+				}
+				if(f==0) cout<<"您查找的书不存在！"<<endl;
+				break;
+			 }
+		case 2:
+			{int f=0;
+				cout<<"输入要查询的作者姓名："<<endl;
+				cin >>au;
+				for(j=0;j<count;j++)
+				{
+					if(au==book[j].get_author())
+					{
+						f=1;
+						book[j].display();
+					}
+				}
+				if(f==0) cout<<"您查找的书不存在！"<<endl;
+				break;
+			 }
+		case 3:
+			{int f=0;
+				cout<<"输入要查询的书号："<<endl;
+				cin >>id;
+				for(j=0;j<count;j++)
+				{
+					if(id==book[j].get_bookID())
+					{
+						f=1;
+						book[j].display();
+					}
+				}
+				if(f==0) cout<<"您查找的书不存在！"<<endl;
+				break;
+			 }
+		case 4:
+			{int f=0;
+				cout<<"输入要查询的出版社名："<<endl;
+				cin >>bc;
+				for(j=0;j<count;j++)
+				{
+					if(bc==book[j].get_bookcompany())
+					{
+						f=1;
+						book[j].display();
+					}
+				}
+				if(f==0) cout<<"您查找的书不存在！"<<endl;
+				break;
+			 }
+		case 0: return ;
+
+		default: printf("输入选项错误，请您输入正确的选项！\n");break;
 		}
-		filein.close();//关闭文件
-		fileout.close();//关闭文件
+		cout<<"请继续输入查询书籍选项："<<endl;
+		cin>>i;
+	}
+}
+int BookRecord ::checkbook(int id)//检查书是否存在。传回的书的数组号
+{	int i=0,j;
+	for(j=0;j<count;j++)
+	{
+		if(id==book[j].get_bookID())
+		{
+			i=1;
+			return j;//书存在、则返回书的数组号
+		}
+	}
+	if(i==0) 
+		cout<<"您输入的书号不存在或者已经被借走！"<<endl;
+			return -1;//书不存在、则返回-1
 
-		if(t==0)//不存在该账号
-        {
-	       cout<<"输入错误！"<<endl;
-	    }
-		 system("del manage1.txt");
 }
 
-void manage::add()//定义添加书籍函数
+void BookRecord ::bookdelete()
 {
-	book book1;//实例化对象
-	ofstream fileout("store.txt",ios::app);//打开文件
-	if(!fileout)
+	cout <<"	*****注意!**现在进行删除操作，请慎重选择!!*****"<<endl;
+	int i,j,m,id;
+	string bookname;
+	cout<<"	1:书名选择删除法	 2:书号选择删除法 0:退出删除操作"<<endl;
+	cout<<"请输入选择法"<<endl;
+	cin >>i;
+	while(i)
 	{
-		cout<<"不能打开文件！"<<"store.txt"<<endl;
+		switch(i)
+		{
+		case 1:cout<<"请输入要删除的书名"<<endl;
+				cin >>bookname;
+				for(j=0;j<count;j++)
+				{
+					if(bookname==book[j].get_bookname())
+					{
+						for(m=j;m<count;m++)
+							book[m]=book[m+1];		//
+						count-=1;
+						cout<<"	图书删除成功！"<<endl;
+					}
+				}
+				break;
+		case 2:cout<<"请输入要删除的书号"<<endl;
+				cin>>id;
+				for(j=0;j<count;j++)
+				{
+					if(id==book[j].get_bookID())
+					{
+						for(m=j;m<count;m++)
+							book[m]=book[m+1];		//
+						count-=1;
+						cout<<"	图书删除成功！"<<endl;
+					}
+				}
+				break;
+		default: printf("输入选项错误，请您输入正确的选项！\n");break;
+		}
+		cout <<"若还要删除，请继续输入删除查询方法"<<endl;
+		cin >>i;
 	}
-	else
-	{ 
-	cout<<"请输入书本基本信息："<<endl;
-    book1.readBookInformation();//读入信息
-	fileout<<book1.getName()<<" "<<book1.getbookAuthor()<<" "<<book1.getbookISBN()<<" "<<book1.gettype()
-		<<" "<<book1.getbookPress()<<" "<<book1.getbookStatue()<<endl;//写入信息
-	}
-	fileout.close();//关闭文件
-	
 }
 
-void manage::revise()//定义修改书籍信息函数
+void BookRecord ::readeradd()
 {
-	book book1;//实例化对象
-	ifstream filein("store.txt");//打开文件
-	if(!filein)
+	int n,num;
+	string nam,tel;
+	cout <<"即将进行添加会员操作，确定操作请输入非 0 整数"<<endl;
+	cin >>n;
+	while(n)
 	{
-		cout<<"打开文件失败！"<<endl;
+		cout <<"请输入要创建读者姓名(string)"<<endl;
+		cin >>nam;
+		cout <<"请输入创建读者号(int)"<<endl;
+		cin >>num;
+		cout <<"请输入读者联系电话(string)"<<endl;
+		cin >>tel;
+		reader[re_count].add_reader1(nam,num,tel);
+		re_count++;
+		cout <<"会员添加成功，确定继续操作请输入非 0 整数"<<endl;
+		cin >>n;
 	}
+	//return;
+}
+void BookRecord ::readershow()
+{	if(re_count==0)//
+	cout<<"	没有您所查询的读者信息！"<<endl<<endl;
 	else
+	cout<<"	***********图书馆的所有读者如下***********"<<endl<<endl;
+	int i;
+	for(i = 0;i < re_count;i++)//count在此类中为全局变量
 	{
-		cout<<"请输入修改书籍的的书名："<<endl;
-		int n=0;//标签，是否有这本书
-		string t;//输入书名
-		cin>>t;
-		do
-		{   int v;//定义变量
-			string x,y,z,u,w;
-		    string s;
-			getline(filein,s);//读入每一行
-			istringstream sin(s);
-			sin>>x;//把s中第一个字符串给a
-            ofstream fileout("restore.txt",ios::app);//写到新文件中去
-			
-			if(t!=x)//判断是否为修改的地方
-			fileout<<s<<endl;//写入数据
+		cout <<"读者 "<<i+1<<"：";
+		reader[i].display1( );
+	}
+}
+int BookRecord ::checkreader(int num)//检查读者是否存在。形参为读者号、函数传回的读者 数组号
+{int i=0,j;
+	for(j=0;j<re_count;j++)
+	{
+		if(num==reader[j].get_num())
+		{
+			i=1;
+			return j;//读者存在、则返回读者数组号
+		}
+	}
+	if(i==0)
+		cout <<"输入的读者不存在"<<endl;
+			return -1;//读者不存在、则返回-1
+}
 
-			if(t==x)//判断是否为修改的地方
+void BookRecord ::borrow_book()//借书操作
+{
+	cout<<"	 ******进入借书操作******"<<endl;
+	int ID,num,a,b,i;//ID书号、num读者号
+	cout <<"请分别输入书号(ID)和读者号(number)"<<endl;
+	cin >>ID;
+	cin >>num;
+	a=checkreader(num);//得到读者数组编号
+	b=checkbook(ID);//得到书的数组编号
+	if((a != -1)&&(b != -1)&&book[b].get_flag())//?
+	{
+		if(reader[a].get_debt()<30.0)
+			if(reader[a].get_br_sum()<3)
 			{
-				n=1;
-				sin>>y>>z>>u>>w>>v;//将一行字符串读出
-				book1.setName(x);//设定书名
-				book1.setAuthor(y);//设定作者
-				book1.setISBN(z);//设定ISBN码
-				book1.settype(u);//设定书项
-				book1.setPress(w);//设定出版社
-				book1.setStatue(v);//设定状态
-				cout<<"原书籍信息为:"<<endl;
-				book1.printBookInformation();//输出
-
-				cout<<"请输入修改后的书籍信息："<<endl;
-				 book1.readBookInformation();//重新读入
-				 fileout<<book1.getName()<<" "<<book1.getbookAuthor()<<" "<<book1.getbookISBN()<<" "<<book1.gettype()
-					 <<" "<<book1.getbookPress()<<" "<<book1.getbookStatue()<<endl;//写入到文件
-				 fileout.close();//关闭文件
+				book[b].set_flag(0);//把借出书的标志位设为0
+				reader[a].set_br_sum();//读者相应的借书数目加1
+				i=reader[a].get_br_sum();
+				reader[a].br_book[i]=b;//
+				cout<<"借书成功！"<<endl;
 			}
-			
-		}
-		while(!filein.eof());//判断是否到文件尾
-		if(n==0)//不存在这本书
-		cout<<"未找到要修改的书籍！"<<endl;
+			else
+			cout <<"	读者已经借书超过三本，不能再借出！"<<endl<<endl;
+		else
+		cout <<"	读者欠款超过30元，不能借书"<<endl<<endl;
 	}
-	filein.close();//关闭
-
-	ifstream filei("restore.txt");//打开文档
-	ofstream fileout("store.txt",ios::out);//打开文档并清空内容
-
-	for(string s;getline(filei,s);)//将修改后的内容写到文件中去
-	{
-		fileout<<s<<endl;
-	}
-	filei.close();//关闭文件
-	fileout.close();//关闭文件
-	system("del restore.txt");//删除文件副本
+	else cout<<"	借书不成功！"<<endl<<endl;
 }
 
-
-void manage::deleteBook()
+void BookRecord ::return_book()//还书操作
 {
-	book book2;//实例化对象
-	ifstream filein("store.txt");//打开文件
-	if(!filein)
+	cout <<"	********欢迎进入还书系统********"<<endl;
+	int num,ID,a,b,k,L;//a接收图书数组序号，b接收读者数组序号
+	cout <<"请分别输入所还书的 ID 和 读者号"<<endl;
+	cin>>ID;
+	cin >>num;
+	b=checkbook(ID);//得到书的数组编号
+	a=checkreader(num);//得到读者数组编号
+	if((a!=-1) &&(b!=-1))
 	{
-		cout<<"打开文件失败！"<<endl;
+		for(k=1;k<=reader[a].get_br_sum();k++)
+			if(b==reader[a].br_book[k])
+				for(L=k;L<=reader[a].get_br_sum();L++)
+				{
+				reader[a].br_book[L]=reader[a].br_book[L+1];
+				book[b].set_flag(1);//把还的书标记设为1
+				reader[a].cut_br_sum();//读者相应的借书量减1
+				cout<<"还书成功！"<<endl;
+				}
 	}
-	else
-	{
-		cout<<"请输入删除书籍的的书名："<<endl;
-		int n=0;//标签，是否有这本书
-		string t;//输入书名
-		cin>>t;
-		do
-		{   int v;//定义变量
-			string x,y,z,u,w;
-		    string s;
-			getline(filein,s);//读入每一行
-			istringstream sin(s);
-			sin>>x;//把s中第一个字符串给a
-            ofstream fileout("restore.txt",ios::app);//写到新文件中去
-			
-			if(t!=x)//判断是否为删除的地方
-			fileout<<s<<endl;//写入数据
+	else cout<<"还书不成功！！！"<<endl;
+}
 
-			if(t==x)//判断是否为删除的地方
+void BookRecord ::readerdelete()
+{
+cout <<"	*****注意!**现在进行删除操作，请慎重!!*****"<<endl<<endl;
+	int i,j,m,num;
+	string Readername;
+	cout<<"	1：读者名选择删除法 2：读者号选择删除法 0：退出删除"<<endl;
+	cout<<"请输入选择法"<<endl;
+	cin >>i;
+	while(i)
+	{
+		switch(i)
+		{
+		case 1:cout<<"请输入要删除的读者名"<<endl;
+				cin >>Readername;
+				for(j=0;j<re_count;j++)
+				{
+					if(Readername==reader[j].get_name())
+					{
+						for(m=j;m<re_count;m++)
+							reader[m]=reader[m+1];		//
+						re_count-=1;
+						cout<<"	会员成功删除！"<<endl;
+					}
+				}
+				break;
+		case 2:cout<<"请输入要删除的读者号"<<endl;
+				cin>>num;
+				for(j=0;j<re_count;j++)
+				{
+					if(num==reader[j].get_num())
+					{
+						for(m=j;m<re_count;m++)
+							reader[m]=reader[m+1];		//
+						re_count-=1;
+						cout<<"	会员成功删除！"<<endl;
+					}
+				}
+				break;
+		default: printf("输入选项错误，请您输入正确的选项！\n");break;
+		}
+		cout <<"请继续输入删除查询方法"<<endl;
+		cin >>i;
+	}
+}
+
+void BookRecord ::reader_handle()//读者会员操作函数
+{	int id,i;
+	cout <<"	********欢迎进入读者会员登录界面********"<<endl<<endl;
+	cout<<"请输入您的读者号"<<endl;
+	cin >>id;
+	i=checkreader(id);//i为读者数组号
+	if(i>=0)
+	{	int j;
+		cout <<"	********会员读者欢迎您来到汇文图书馆********"<<endl;
+		cout <<"	1：查询基本信息	2：查询借书信息"<<endl;
+		cout <<"	3:高级查询藏书	4：显示全部藏书"<<endl;
+		cout <<"	0：退出会员登录"<<endl;
+		cout <<"	****************************************"<<endl;
+		cout <<"请您输入操作选项"<<endl;
+		cin >>j;
+		while(j)//j!=0
+		{
+			switch(j)
 			{
-				n=1;
-				sin>>y>>z>>u>>w>>v;//将一行字符串读出
-				book2.setName(x);//设定书名
-				book2.setAuthor(y);//设定作者
-				book2.setISBN(z);//设定ISBN码
-				book2.settype(u);//设定书项
-				book2.setPress(w);//设定出版社
-				book2.setStatue(v);//设定状态
-				cout<<"原书籍信息为:"<<endl;
-				book2.printBookInformation();//输出
-
-				cout<<"是否删除？（Y：是，N：否）"<<endl;
-				char a;//定义变量
-				cin>>a;
-				if(a=='Y')
-				{
-					cout<<"删除成功！"<<endl;
-				}
-			    if(a=='N')
-				{
-					cout<<"未删除！"<<endl;
-				    fileout<<book2.getName()<<" "<<book2.getbookAuthor()<<" "<<book2.getbookISBN()<<" "<<book2.gettype()
-					 <<" "<<book2.getbookPress()<<" "<<book2.getbookStatue()<<endl;//写入到文件
-				}
-				if(a!='Y'||a!='N')
-				{
-					system("pause");
-				}
-				fileout.close();//关闭文件
+				case 1:
+						reader[i].display1();
+						break;
+				case 2:int n;
+						if(reader[i].get_br_sum()!=0)
+						{
+							for(n=1;n<=reader[i].get_br_sum();n++)
+								book[reader[i].br_book[n]].display();
+						}
+						else cout <<"用户没有借书信息！"<<endl;
+						break;
+				case 3:bookfind();
+						 break;
+				case 4:bookshow();
+						 break;
+				default:printf("输入选项错误，请您输入正确的选项！\n");break;
 			}
-			
+			cout <<"	****************************************"<<endl;
+			cout <<"	1：查询基本信息	2：查询借书信息"<<endl;
+			cout <<"	3:高级查询藏书	4：显示全部藏书"<<endl;
+			cout <<"	0：退出会员登录"<<endl;
+			cout <<"	****************************************"<<endl;
+			cout <<"请您继续输入会员操作选项"<<endl;
+			cin >>j;
 		}
-		while(!filein.eof());//判断是否到文件尾
-		if(n==0)//不存在这本书
-		cout<<"未找到要删除的书籍！"<<endl;
+
+		return;
+
 	}
-	filein.close();//关闭
-
-	ifstream filei("restore.txt");//打开文档
-	ofstream fileout("store.txt",ios::out);//打开文档并清空内容
-
-	for(string s;getline(filei,s);)//将修改后的内容写到文件中去
-	{
-		fileout<<s<<endl;
-	}
-	filei.close();//关闭文件
-	fileout.close();//关闭文件
-	system("del restore.txt");//删除文件副本
-
+	else cout <<"输入的用户不存在!"<<endl<<endl;
 
 }
-
-void manage::addReader()//增加读者函数
+void BookRecord ::manage()//管理员操作
 {
-	ofstream fout("student.txt",ios::app);//打开文件
-	string a,b,c;
-	cout<<"请输入相应信息！"<<endl;
-	cout<<"姓名："<<endl;
-	cin>>a;
-	cout<<"学号："<<endl;
-	cin>>b;
-	cout<<"密码："<<endl;
-	cin >>c;
-	fout<<a<<" "<<b<<" "<<c<<" "<<endl;
-    fout.close();//关闭文件
-}
-
-void manage::deleteReader()
-{
-	
-	ifstream filein("student.txt");//打开文件
-	if(!filein)
-	{
-		cout<<"打开文件失败！"<<endl;
-	}
-	else
-	{
-		string t,m;
-		int n=0;//标签，是否有这个读者
-		cout<<"请输入删除学生的的姓名："<<endl;
-		cin>>m;
-        cout<<"请输入删除学生的的学号："<<endl;
-		cin>>t;
-		do
-		{   
-			string x,y,z;//定义变量
-		    string s;
-			getline(filein,s);//读入每一行
-			istringstream sin(s);
-			sin>>x>>y>>z;//把s中第一个字符串给a
-            ofstream fileout("student1.txt",ios::app);//写到新文件中去
-			
-			if(m!=x||t!=y)//判断是否为删除的地方
-			fileout<<s<<endl;//写入数据
-
-			if(m==x&&t==y)//判断是否为删除的地方
+	string i;
+	cout<<"请输入管理员登陆密码"<<endl;
+	cin >>i;
+	if(i=="py")
+	{	cout<<"		****欢迎进入管理系统*****"<<endl;
+		cout<<"		1：图书管理"<<endl;
+		cout<<"		2: 读者管理"<<endl;
+		cout<<"		0：退出图书管理系统"<<endl;
+		cout<<"		**********************"<<endl;
+		cout<<"请输入选项"<<endl;
+		int j;
+		cin >>j;
+		while(j)
+		{
+			switch(j)
 			{
-				n=1;
-				cout<<"原学生信息为:"<<endl;
-				cout<<"姓名："<<x<<endl;
-				cout<<"学号："<<y<<endl;
-				cout<<"密码："<<z<<endl;
-				cout<<"是否删除？（Y：是，N：否）"<<endl;
-				char a;//定义变量
-				cin>>a;
-				if(a=='Y')
+			case 1://图书管理
 				{
-					cout<<"删除成功！"<<endl;
-				}
-			    if(a=='N')
+					cout<<"	****欢迎进入图书管理系统****"<<endl;
+					cout<<"	1：增添图书	2：删除图书"<<endl;
+					cout<<"	3：显示所有藏书	4：精确查询藏书"<<endl;
+					cout<<"	0:退出图书管理系统"<<endl;
+					cout<<"	***************************"<<endl;
+					cout<<"请输入选项"<<endl;
+					int m;
+					cin >>m;
+					while(m)
+					{
+						switch(m)
+							{
+							case 1:bookadd();
+								break;
+							case 2:
+								bookdelete();
+							   	break;
+							case 3:bookshow();
+								 break;
+							case 4:bookfind();
+								 break;
+							default: printf("输入选项错误，请您输入正确的选项！\n");break;
+							}
+						cout<<"	***************************"<<endl;
+						cout<<"	1：增添图书	2：删除图书"<<endl;
+						cout<<"	3：显示所有藏书	4：精确查询藏书"<<endl;
+						cout<<"	0:退出图书管理系统"<<endl;
+						cout<<"	***************************"<<endl;
+						cout<<"请继续输入对图书管理的选项"<<endl;
+						cin >>m;
+					}
+				}break;
+			case 2://读者管理
 				{
-					cout<<"未删除！"<<endl;
-				    fileout<<x<<" "<<y<<" "<<z<<endl;//写入到文件
-				}
-				if(a!='Y'||a!='N')
-				{
-					system("pause");
-				}
-				fileout.close();//关闭文件
+				cout<<"	****欢迎进入读者管理系统****"<<endl;
+				cout<<"	1：增添读者	2：删除读者"<<endl;
+				cout<<"	3：查看所有读者 4：读者借书	"<<endl;
+				cout<<"	5：读者还书	0:退出读者管理系统"<<endl;
+				cout<<"	***************************"<<endl;
+				cout<<"请输入选项"<<endl;
+				int n;
+				cin >>n;
+				while(n)
+					{
+						switch(n)
+							{
+							case 1:
+								readeradd();break;
+							case 2:
+								readerdelete();
+								break;
+							case 3:readershow();
+									break;
+							case 4:borrow_book();//借书
+									break;
+							case 5:return_book();//还书
+									break;
+							default: printf("输入选项错误，请您输入正确的选项！\n");break;
+							}
+						cout<<"	***************************"<<endl;
+						cout<<"	1：增添读者	2：删除读者"<<endl;
+						cout<<"	3：查看所有读者 4：读者借书	"<<endl;
+						cout<<"	5：读者还书	0:退出读者管理系统"<<endl;
+						cout<<"	***************************"<<endl;
+						cout<<"请继续输入对读者管理选项"<<endl;
+						cin >>n;
+					}
+				}break;
+			default: printf("输入选项错误，请您输入正确的选项！\n");break;
 			}
-			
+			cout<<"		**********************"<<endl;
+			cout<<"		1：图书管理"<<endl;
+			cout<<"		2: 读者管理"<<endl;
+			cout<<"		0：退出图书管理系统"<<endl;
+			cout<<"		**********************"<<endl;
+			cout<<"请继续输入操作选项"<<endl;
+			cin >>j;
 		}
-		while(!filein.eof());//判断是否到文件尾
-		if(n==0)//不存在这个学生
-		cout<<"未找到要删除的学生！"<<endl;
 	}
-	filein.close();//关闭
-
-	ifstream filei("student1.txt");//打开文档
-	ofstream fileout("student.txt",ios::out);//打开文档并清空内容
-
-	for(string s;getline(filei,s);)//将修改后的内容写到文件中去
-	{
-		fileout<<s<<endl;
-	}
-	filei.close();//关闭文件
-	fileout.close();//关闭文件
-	system("del student1.txt");//删除文件副本
-
-
-
+	else cout<<"	密码错误，您无权登录！"<<endl;
+	return;
 }
 
-manage::~manage()//析构函数
-{
-}

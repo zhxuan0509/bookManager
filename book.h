@@ -1,45 +1,34 @@
-#pragma once
 #ifndef BOOK_H
 #define BOOK_H
-#include<iostream>//使用标准输入输出流
-#include<sstream>//使用string流
-#include<iomanip>//格式输出
-#define NULLID "0"//宏定义
-using namespace std;//使用名空间
-class book
+#include<iostream>
+#include<string>
+using namespace std;
+#define MAX_BOOK 500
+class Book
 {
-private:
-	string bookName;//书名
-	string bookAuthor;//作者
-	string bookISBN;//ISBN码
-	string type;//类别
-	int bookStatue;//书籍状态
-	string bookPress;//出版社
-
 public:
-	book();//构造函数
-	string getName()const;//获得书名
-	string getbookAuthor()const;//获得作者
-    string getbookISBN()const;//获得ISBN
-	string gettype()const;//获得类型
-	string getbookPress()const;//获得出版社
-	int getbookStatue()const;//获取状态
-	
-	void setName(string a);//设定书名
-	void setAuthor(string b);//设定作者
-	void setISBN(string c);//设定ISBN码
-	void settype(string d);//设定书项
-	void setPress(string e);//设定出版社
-	void setStatue(int f);//设定状态
+	Book();
+	void add_book(string,string,int,string);
 
-	void readBookInformation();//读入书籍信息函数	
-	void printBookInformation();//输出书籍信息函数
-	void changeStatue();//判断状态
-	
-	~book();//析构函数
-	
+	void del_book();
+	void find_book();
+	void display();
+
+	void input_bookname(string);
+	string get_bookname();
+	void input_author(string);
+	string get_author();
+	void input_bookID(int);
+	int get_bookID();
+	void input_bookcompany(string);
+	string get_bookcompany();
+	void set_flag(int);
+	int get_flag();
+private:
+	string bookname;//书名
+	string author;//作者
+	int bookID;//书号
+	string bookcompany;//出版社
+	int flag;//图书标志：1代表在架上； 0 代表借出
 };
 #endif
-
-
-
